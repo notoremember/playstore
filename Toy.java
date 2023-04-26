@@ -39,5 +39,23 @@ public class Toy {
         this.frequency = frequency;
     }
 
+    @Override
+    public String toString() {
+        return "Toy{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", frequency=" + frequency +
+                '}';
+    }
+
+    public static void main(String[] args) {
+        String[] input = {
+                "1 2 конструктор",
+                "2 2 робот",
+                "3 6 кукла"
+        };
+
+
+
 
 }
