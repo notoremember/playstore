@@ -54,7 +54,49 @@ public class Toy {
                 "2 2 робот",
                 "3 6 кукла"
         };
+        Queue<Toy> toyQueue = new PriorityQueue<>(Comparator.comparing(Toy::getFrequency).reversed());
 
+        for (String s : input) {
+            String[] tokens = s.split(" ");
+            String id = tokens[0];
+            double frequency = Double.parseDouble(tokens[1]) / 10.0;
+            String name = tokens[2];
+            toyQueue.offer(new Toy(id, name, frequency));
+        }
+
+        Queue<Toy> globalQueue = new PriorityQueue<>(Comparator.comparing(Toy::getFrequency).reversed());
+
+        Random random = new Random();
+
+        for (int i = 0; i < 10; i++) {
+            double r = random.nextDouble();
+
+            if (r < 0.2) {
+                globalQueue.offer(toyQueue.peek());
+            } else if (r < 0.4) {
+                Toy[] toys = new Toy[2];
+                for (int j = 0; j < 2; j++) {
+                    toys[j] = toyQueue.poll();
+                }
+                globalQueue.addAll(Arrays.asList(toys));
+            } else {
+                Toy[] toys = new Toy[3];
+                for (int j = 0; j < 3; j++) {
+                    toys[j] = toyQueue.poll();
+                }
+                globalQueue.addAll(Arrays.asList(toys));
+            }
+        }
+
+        try (PrintWriter writer = new PrintWriter(new File("output.txt"))) {
+            for (int i = 0; i < 10; i++) {
+                Toy toy = globalQueue.remove();
+                writer.println(toy.getName());
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 
